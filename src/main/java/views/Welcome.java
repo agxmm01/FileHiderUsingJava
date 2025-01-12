@@ -18,11 +18,11 @@ public class Welcome {
         System.out.println("Welcome to the File Encrypter");
         System.out.println("Press 1 to Login");
         System.out.println("Press 2 to Signup");
-        System.out.println("Press 0 to Exit");
+        System.out.println("Press 0 to Exit");  // Menu Driven Program
 
         int choice = 0;
         try {
-          choice = Integer.parseInt(br.readLine());
+          choice = Integer.parseInt(br.readLine()); // Here choice has been parsed as Integer but read as String value
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -30,7 +30,7 @@ public class Welcome {
         switch (choice) {
             case 1 -> login();
             case 2 -> signUp();
-            case 0 -> System.exit(0);
+            case 0 -> System.exit(0);  // Exit the program
         }
     }
 
@@ -48,13 +48,13 @@ public class Welcome {
                 String userOTP = sc.nextLine().trim();
 
                 if (genOTP.equals(userOTP)) {
-                   new UserView(email).home();
+                   new UserView(email).home();   // If OTP entered is equal to the sent OTP then bring up the home screen
 
                 } else {
                     System.out.println("Wrong OTP! Please try again.");
                 }
             } else {
-                System.out.println("User Not Found! Please sign up first.");
+                System.out.println("User Not Found! Please sign up first.");  //No user exists in the database
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,13 +69,13 @@ public class Welcome {
         String name = sc.nextLine();
         System.out.println("Enter your email : ");
         String email = sc.nextLine();
-        String genOTP = GenerateOTP.getOTP();
-        SendOTPService.sendOTP(email , genOTP);
+        String genOTP = GenerateOTP.getOTP(); // Generating a new OTP
+        SendOTPService.sendOTP(email , genOTP); // Send OTP to the email of the new user to authenticate
         System.out.println("Enter your OTP : ");
         String userOTP = sc.nextLine();
         if(genOTP.equals(userOTP)) {
             User user = new User(name, email);
-            int response = UserService.saveUser(user);
+            int response = UserService.saveUser(user); // Check Response for Saving User
             switch (response) {
                 case 0 -> System.out.println("User Registered Successfully");
                 case 1 -> System.out.println("User already Exists ! ");

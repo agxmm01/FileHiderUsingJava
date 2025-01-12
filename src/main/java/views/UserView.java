@@ -18,23 +18,22 @@ public class UserView {
 
     public void home() {
         do {
-            System.out.println("Welcome " + loggedEmail);
+            System.out.println("Welcome " + loggedEmail);  // Menu Driven Program Home Page
             System.out.println("Press 1 to show your hidden files");
             System.out.println("Press 2 to hide a new file");
             System.out.println("Press 3 to unhide a file");
             System.out.println("Press 0 to exit");
             Scanner sc = new Scanner(System.in);
-            int choice = Integer.parseInt(sc.nextLine());
+            int choice = Integer.parseInt(sc.nextLine());  // Ask the user for input and parse it as Integer
             switch (choice) {
                 case 1 -> {
                     try {
-                        List<Data> files = DataDAO.getAllFiles(loggedEmail);
+                        List<Data> files = DataDAO.getAllFiles(loggedEmail); //List to get list of all files present Data Database Access Operation
                         System.out.println("ID - File Name");
-                        for (Data file : files) {
+                        for (Data file : files) {    // For loop to get files of type Data
                             System.out.println(file.getId() + " - " + file.getFileName());
-
                         }
-                    } catch (SQLException e) {
+                    } catch (SQLException e) {   //Check for SQL Exception if there is failure to access Database
                         e.printStackTrace();
                     }
                 }
@@ -42,7 +41,7 @@ public class UserView {
                     System.out.println("Enter the file Path : ");
                     String path = sc.nextLine();
                     File f = new File(path);
-                    Data file = new Data(0,f.getName(),path , this.loggedEmail);
+                    Data file = new Data(0,f.getName(),path , this.loggedEmail);  // Create a file of type Data
                     try {
                         DataDAO.hideFile(file);
                     } catch (SQLException e) {
@@ -61,15 +60,15 @@ public class UserView {
                         }
                         System.out.println("Enter the id of file to unhide the file : ");
                         int id = Integer.parseInt(sc.nextLine());
-                        boolean isValid = false;
+                        boolean isValid = false;   // Check for the hidden file that if it is present
                         for (Data file : files) {
                             if (file.getId() == id) {
-                                isValid = true;
+                                isValid = true;     // Change it to true if it is valid
                                 break;
                             }
                         }
                         if (isValid) {
-                            DataDAO.unhideFile(id);
+                            DataDAO.unhideFile(id);     // And if it is valid then unhide the file of that id
                         } else {
                             System.out.println("Wrong ID!");
                         }
@@ -83,7 +82,6 @@ public class UserView {
                     System.exit(0);
                 }
             }
-
         } while (true);
     }
 }
